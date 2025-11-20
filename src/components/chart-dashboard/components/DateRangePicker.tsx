@@ -6,16 +6,14 @@ import {CalendarIcon} from "lucide-react";
 import {Calendar} from "@/components/ui/calendar.tsx";
 
 type DateRangePickerProps = {
-  className?: string;
+  dateRange: DateRange | undefined
+  updateDateRange: (dateRange: DateRange | undefined) => void
+  className?: string
 };
 
-function DateRangePicker({ className }: DateRangePickerProps) {
+// TODO: Consider making this re-usable, move to components/ui, and make the dateRange prop optional
+function DateRangePicker({ className, dateRange, updateDateRange }: DateRangePickerProps) {
   const [open, setOpen] = useState(false)
-
-  const [dateRange, setDateRange] = useState<DateRange | undefined>({
-    from: new Date(2025, 5, 12),
-    to: new Date(2025, 6, 15),
-  })
 
   const dateRangeString = useMemo(() => {
     if (dateRange?.from && dateRange?.to) {
@@ -24,7 +22,9 @@ function DateRangePicker({ className }: DateRangePickerProps) {
         day: "numeric",
         year: "numeric",
       }
-      return `${dateRange.from.toLocaleDateString("en-US", options)} - ${dateRange.to.toLocaleDateString("en-US", options)}`;
+      const from = dateRange.from.toLocaleDateString("en-US", options)
+      const to = dateRange.to.toLocaleDateString("en-US", options)
+      return `${from} - ${to}`;
     } else {
       return 'Select a Date';
     }
@@ -35,6 +35,7 @@ function DateRangePicker({ className }: DateRangePickerProps) {
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button
+            size='sm'
             variant="outline"
             className="justify-between font-normal"
           >
@@ -42,14 +43,14 @@ function DateRangePicker({ className }: DateRangePickerProps) {
             {dateRangeString}
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-auto overflow-hidden p-0" align="start">
+        <PopoverContent className="w-auto overflow-hidden p-0" align="end">
           <Calendar
             mode="range"
             defaultMonth={dateRange?.from}
             selected={dateRange}
-            onSelect={setDateRange}
+            onSelect={updateDateRange}
             numberOfMonths={2}
-            className="rounded-lg border shadow-sm w-[500px]"
+            className="w-[500px]"
           />
           {/*<Button variant='link' onClick={() => setOpen(false)}>Apply</Button>*/}
         </PopoverContent>
