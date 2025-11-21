@@ -6,6 +6,12 @@ import {chartData, orderedChartDataDates} from "@/components/chart-dashboard/cha
 import {useState} from "react";
 import type {DateRange} from "react-day-picker";
 
+// Grid Library Imports
+import 'react-grid-layout/css/styles.css'
+import 'react-resizable/css/styles.css'
+import "./components/chart-layout/grid-layout-overrides.css"
+
+// Types
 export const LayoutMode = {
   Vertical: "Vertical",
   Compact: "Compact",
@@ -36,7 +42,10 @@ function ChartDashboard() {
         </CardContent>
       </Card>
 
-      <ChartLayout charts={chartData} />
+      <ChartLayout
+        charts={chartData}
+        layoutMode={layoutMode}
+      />
     </>
   )
 }

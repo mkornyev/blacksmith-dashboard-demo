@@ -1,4 +1,4 @@
-import ChartDashboard from "@/components/chart-dashboard/ChartDashboard.tsx";
+import ChartDashboard from "@/components/chart-dashboard/ChartDashboard.tsx"
 
 function App() {
   return (
